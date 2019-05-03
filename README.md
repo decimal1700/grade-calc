@@ -1,1 +1,1 @@
-# grade-calc
+In HCPSS, overall course grades are the only grades that show up on your high school transcript. They are calculated based on quarterly grades and exam grades. Use this calculator to predict your overall course grade for a yearlong class.
