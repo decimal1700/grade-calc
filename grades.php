@@ -44,6 +44,22 @@
 	  cursor: pointer;
 
 	}
+
+    a {
+        -moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        -webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        -ms-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        border-bottom: solid 1px #e4e4e4;
+        color: inherit;
+        text-decoration: none;
+    }
+
+        a:hover {
+            border-bottom-color: transparent;
+            color: #4acaa8 !important;
+    	}
+
 	</style>
 	<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
 </head>
@@ -208,6 +224,6 @@
 <button type="submit" class="button" name="submit">calculate</button>
 </form>
 <br><br>
-<p>website by dhruvi mirani<br>view source code <a href="https://github.com/decimal1700/grade-calc">here</a></p>
+<p>website by <a href="https://dhruvi.me" target="_blank">dhruvi mirani</a><br>view source code <a href="https://github.com/decimal1700/grade-calc" target="_blank">here</a></p>
 </body>
 </html>
