@@ -12,12 +12,40 @@
    <link rel="stylesheet" href="/assets/bootstrap/css/Highlight-Clean.css">
    <!-- Global site tag (gtag.js) - Google Analytics -->
    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114099331-5"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       
       gtag('config', 'UA-114099331-5');
+   </script>
+   <script>
+   $(document).ready(function() {
+              
+        $('#length').change(function() {
+            if($('#length').val() == 1) {
+                $("#quarrow").hide();
+                $("#two").val("");
+                $('#two').removeAttr('required');
+                $("#overpass").empty();
+            } else {
+                $("#quarrow").show();
+                $('#two').attr('required');
+                $("#overpass").empty();
+            }
+        });
+
+        if($('#length').val() == 1) {
+            $("#quarrow").hide();
+            $("#two").val("");
+            $('#two').removeAttr('required');
+        } else {
+            $("#quarrow").show();
+            $('#two').attr('required');
+        }
+          
+    });
    </script>
    <title>Grade Calculator</title>
    <link href="https://fonts.googleapis.com/css?family=Lato|Tinos" rel="stylesheet">
@@ -92,11 +120,9 @@
 	:invalid {
 	  box-shadow: none;
 	}
-
 	:-moz-submit-invalid {
 	  box-shadow: none;
 	}
-
 	:-moz-ui-invalid {
 	  box-shadow:none;
 	}
@@ -108,9 +134,9 @@
         <div class="container">
             <header></header>
         </div>
-        <h5 class="text-center" style="font-weight: 400;">In HCPSS, overall course grades are the only grades that show up on your high school transcript. They are calculated based on quarterly grades and exam grades.<br><br>Use this calculator to predict your overall course grade for a yearlong class.<br><br><strong>UPDATE (May 22, 2020): These calculations have been revised to reflect adopted changes in HCPSS grade calculation that I advocated for on behalf of the GHS sophomore class.</strong></h5>
+        <h5 class="text-center" style="font-weight: 400;">In HCPSS, overall course grades are the only grades that show up on your high school transcript. They are calculated based on quarterly grades and exam grades.<br><br>Use this calculator to predict your overall course grade for a high school course.<br><br><strong>UPDATE (September 10, 2020): These calculations have been revised to reflect adopted changes in HCPSS grade calculation as a result of the 4x4 schedule during FY 2020-21.</strong></h5>
     </div><form action="" method="POST" style="margin: 0;padding: 0;border-top: 1px solid black">
-    <!--Math adapted from calculation procedures found at https://www.hcpss.org/policies/8000/8020-grading-reporting-high-school/implementation/-->
+      <!--Math adapted from calculation procedures found at https://www.hcpss.org/policies/8000/8020-grading-reporting-high-school/implementation/-->
     <div class="card">
         <div class="table-responsive" style="padding: 100px;color: #cfcfcf;background-color: #B0E0E6;margin: 0px;padding-top: 5%;padding-bottom: 2%;padding-right: 20px;padding-left: 20px; border-left: 1px solid black; border-right: 1px solid black;">
             <table class="table table-striped">
@@ -119,7 +145,21 @@
                   <th style="font-size: 130%; padding: 2%; width: 70%; background-color: #343a40; color: white; border-top: 1px solid black; border-right: 1px solid black;">Grade</th>
                </tr>
                <tr>
-                  <td style="font-size: 130%; padding: 2%; width: 30%; background-color: #343a40; color: white; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;"><b>Quarter 1</b></td>
+                  <td style="font-size: 130%; padding: 2%; width: 30%; background-color: #343a40; color: white; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;"><b>Class Length</b></td>
+                  <td style="background-color: #E6E6E6; border: 1px solid black;">
+                     <span class="custom-dropdown small">
+                        <select name="length" id="length" required>
+                           <option value="2">Semester long</option>
+                           <option value="1">Quarter long</option>
+                        </select>
+                     </span>
+                     <script type="text/javascript">
+                        document.getElementById('length').value = "<?php echo $_POST['length'];?>";
+                     </script>
+                  </td>
+               </tr>
+               <tr>
+                  <td style="font-size: 130%; padding: 2%; width: 30%; background-color: #343a40; color: white; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;"><b>First Quarter</b></td>
                   <td style="background-color: #E6E6E6; border: 1px solid black;">
                      <span class="custom-dropdown small">
                         <select name="one" id="one" required>
@@ -135,8 +175,8 @@
                      </script>
                   </td>
                </tr>
-               <tr>
-                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Quarter 2</b></td>
+               <tr id="quarrow" style="display: none;">
+                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Second Quarter</b></td>
                   <td style="background-color: #E6E6E6; border: 1px solid black;">
                      <span class="custom-dropdown small">
                         <select name="two" id="two" required>
@@ -153,10 +193,10 @@
                   </td>
                </tr>
                <tr>
-                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Midterm Exam</b></td>
+                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Exam</b></td>
                   <td style="background-color: #E6E6E6; border: 1px solid black;">
                      <span class="custom-dropdown small">
-                        <select name="mid" id="mid" required>
+                        <select name="exam" id="exam" required>
                            <option value="4">A</option>
                            <option value="3">B</option>
                            <option value="2">C</option>
@@ -165,122 +205,84 @@
                         </select>
                      </span>
                      <script>
-                        document.getElementById('mid').value = "<?php echo $_POST['mid'];?>";
-                     </script>
-                  </td>
-               </tr>
-               <tr>
-                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Quarter 3</b></td>
-                  <td style="background-color: #E6E6E6; border: 1px solid black;">
-                     <span class="custom-dropdown small">
-                        <select name="three" id="three" required>
-                           <option value="4">A</option>
-                           <option value="3">B</option>
-                           <option value="2">C</option>
-                           <option value="1">D</option>
-                           <option value="0">E</option>
-                        </select>
-                     </span>
-                     <script>
-                        document.getElementById('three').value = "<?php echo $_POST['three'];?>";
-                     </script>
-                  </td>
-               </tr>
-               <tr>
-                  <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b>Quarter 4</b></td>
-                  <td style="background-color: #E6E6E6; border: 1px solid black;">
-                     <span class="custom-dropdown small">
-                        <select name="four" id="four" required>
-                           <option value="4">Pass</option>
-                           <option value="incomplete">Incomplete</option>
-                        </select>
-                     </span>
-                     <script>
-                        document.getElementById('four').value = "<?php echo $_POST['four'];?>";
+                        document.getElementById('exam').value = "<?php echo $_POST['exam'];?>";
                      </script>
                   </td>
                </tr>
                <tr>
                   <td style="font-size: 130%; padding: 2%; background-color: #343a40; color: white; border: 1px solid black;"><b><br>Overall Grade</b><br><br></td>
                   <td style="background-color: #E6E6E6; border: 1px solid black;">
-                     <p style="font-size: 150%;">
-		               <?php
-		                  if(isset($_POST['submit'])) {
+                     <p style="font-size: 150%;" id="overpass">
+               <?php
+                  if(isset($_POST['submit'])) {
 
-		                     // Math adapted from calculation procedures found at https://www.hcpss.org/policies/8000/8020-grading-reporting-high-school/implementation/
+                     if($_POST['length'] == 2) {
 
-		                     if($_POST['four'] == "incomplete") {
+                        $one = ($_POST['one']) * 3;
+                        $two = ($_POST['two']) * 3;
+                        $exam = ($_POST['exam']) * 1;
 
-		                        $one = ($_POST['one']) * 2;
-		                        $two = ($_POST['two']) * 2;
-		                        $mid = ($_POST['mid']) * 1;
-		                        $three = ($_POST['three']) * 2;
+                        $total = ($one + $two + $exam + $three) / 7;
 
-		                        $total = ($one + $two + $mid + $three) / 7;
+                        if((3.50 <= $total) && ($total <= 4.00)) {
 
-		                        if((3.44 <= $total) && ($total <= 4)) {
+                        $totalletter = "A";
 
-		                        $totalletter = "A";
+                        } else if((2.50 <= $total) && ($total <= 3.49)) {
 
-		                        } else if((2.44 <= $total) && ($total <= 3.43)) {
+                        $totalletter = "B";
 
-		                        $totalletter = "B";
+                        } else if((1.50 <= $total) && ($total <= 2.49)) {
 
-		                        } else if((1.44 <= $total) && ($total <= 2.43)) {
+                        $totalletter = "C";
 
-		                        $totalletter = "C";
+                        } else if((0.75 <= $total) && ($total <= 1.49)) {
 
-		                        } else if((0.44 <= $total) && ($total <= 1.43)) {
+                        $totalletter = "D"; 
 
-		                        $totalletter = "D"; 
+                        } else if((0 <= $total) && ($total <= 0.75)) {
 
-		                        } else if((0 <= $total) && ($total <= 0.44)) {
+                        $totalletter = "E";
 
-		                        $totalletter = "E";
+                        }
 
-		                        }
+                        echo preg_replace('/\s+/', ' ', "<br>$totalletter");
 
-		                        echo preg_replace('/\s+/', ' ', "<br>$totalletter<br><br><i>you have until september to complete fourth quarter work and earn a 'pass'");
+                     } else if($_POST['length'] == 1) {
 
-		                     } else {
+                        $one = ($_POST['one']) * 3;
+                        $exam = ($_POST['exam']) * 1;
 
-		                        $one = ($_POST['one']) * 2;
-		                        $two = ($_POST['two']) * 2;
-		                        $mid = ($_POST['mid']) * 1;
-		                        $three = ($_POST['three']) * 2;
-		                        $four = ($_POST['four']) * 2;
+                        $total = ($one + $exam) / 4;
 
-		                        $total = ($one + $two + $mid + $three + $four) / 9;
+                        if((3.50 <= $total) && ($total <= 4.00)) {
 
-		                        if((3.44 <= $total) && ($total <= 4)) {
+                        $totalletter = "A";
 
-		                        $totalletter = "A";
+                        } else if((2.50 <= $total) && ($total <= 3.49)) {
 
-		                        } else if((2.44 <= $total) && ($total <= 3.43)) {
+                        $totalletter = "B";
 
-		                        $totalletter = "B";
+                        } else if((1.50 <= $total) && ($total <= 2.49)) {
 
-		                        } else if((1.44 <= $total) && ($total <= 2.43)) {
+                        $totalletter = "C";
 
-		                        $totalletter = "C";
+                        } else if((0.75 <= $total) && ($total <= 1.49)) {
 
-		                        } else if((0.44 <= $total) && ($total <= 1.43)) {
+                        $totalletter = "D"; 
 
-		                        $totalletter = "D"; 
+                        } else if((0 <= $total) && ($total <= 0.75)) {
 
-		                        } else if((0 <= $total) && ($total <= 0.44)) {
+                        $totalletter = "E";
 
-		                        $totalletter = "E";
+                        }
 
-		                        }
+                        echo preg_replace('/\s+/', ' ', "<br>$totalletter");
 
-		                        echo preg_replace('/\s+/', ' ', "<br>$totalletter");
+                     }
 
-
-		                     }
-
-		                  }
-		               ?>
+                  }
+               ?>
                      </p>
                   </td>
                </tr>
@@ -303,5 +305,4 @@
        </footer>
    </div>
 </body>
-
 </html>
